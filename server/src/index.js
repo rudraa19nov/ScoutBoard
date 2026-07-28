@@ -55,8 +55,8 @@ async function start() {
       console.log(`[server] Scoutboard API listening on http://localhost:${PORT}`);
     });
   } catch (err) {
-    console.error("[server] failed to start:", err.message);
-    process.exit(1);
+      console.error("[server] failed to start:");
+      console.error(err);    process.exit(1);
   }
 }
 
