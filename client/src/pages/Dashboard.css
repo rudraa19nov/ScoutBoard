@@ -1,0 +1,95 @@
+.dash-page {
+  min-height: 100vh;
+  padding: 48px 24px 96px;
+}
+
+.dash-wrap {
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.dash-masthead {
+  margin-bottom: 32px;
+}
+
+.dash-eyebrow {
+  font-family: var(--font-mono);
+  color: var(--brass);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  margin: 0 0 10px;
+}
+
+.dash-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  line-height: 1.15;
+  margin: 0 0 12px;
+  color: var(--bone);
+}
+
+.dash-sub {
+  color: var(--bone-dim);
+  font-size: 1rem;
+  line-height: 1.5;
+  max-width: 56ch;
+  margin: 0;
+}
+
+.dash-error {
+  margin-top: 16px;
+  color: var(--coral);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+}
+
+.dash-current {
+  margin-top: 28px;
+}
+
+.dash-board {
+  margin-top: 56px;
+}
+
+.dash-board-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--plum-edge);
+  padding-bottom: 12px;
+}
+
+.dash-board-head h2 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  margin: 0;
+  color: var(--bone);
+}
+
+.dash-board-count {
+  font-family: var(--font-mono);
+  color: var(--ink);
+  background: var(--brass);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  padding: 2px 9px;
+}
+
+.dash-empty {
+  color: var(--bone-dim);
+  font-size: 0.92rem;
+}
+
+.dash-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 720px) {
+  .dash-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

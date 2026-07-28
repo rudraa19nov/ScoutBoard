@@ -1,0 +1,85 @@
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+}
+
+.login-panel {
+  max-width: 460px;
+  width: 100%;
+  background: linear-gradient(165deg, var(--plum) 0%, var(--ink-raised) 100%);
+  border: 1px solid var(--plum-edge);
+  border-radius: var(--radius-card);
+  padding: 40px 36px;
+  box-shadow: var(--shadow-lg);
+}
+
+.login-eyebrow {
+  font-family: var(--font-mono);
+  color: var(--brass);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  margin: 0 0 12px;
+}
+
+.login-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4vw, 2rem);
+  line-height: 1.2;
+  margin: 0 0 14px;
+  color: var(--bone);
+}
+
+.login-sub {
+  color: var(--bone-dim);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  margin: 0 0 28px;
+}
+
+.login-google {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  min-height: 44px;
+}
+
+.login-error {
+  color: var(--coral);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  text-align: center;
+  margin: 0 0 16px;
+}
+
+.login-points {
+  margin: 24px 0 0;
+  padding-top: 20px;
+  border-top: 1px dashed var(--plum-edge);
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.login-points li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 0.82rem;
+  color: var(--bone-dim);
+  line-height: 1.4;
+}
+
+.login-points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+}

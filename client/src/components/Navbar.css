@@ -1,0 +1,100 @@
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--plum-edge);
+  background: rgba(246, 241, 231, 0.82);
+  backdrop-filter: blur(6px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-brand-mark {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--ink);
+  background: var(--brass);
+  border-radius: 8px;
+  padding: 4px 8px;
+  letter-spacing: 0.05em;
+}
+
+.nav-brand-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--brass);
+}
+
+.nav-account {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--plum-edge);
+}
+
+.nav-avatar--fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--plum);
+  color: var(--brass);
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+.nav-account-info {
+  display: none;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+@media (min-width: 560px) {
+  .nav-account-info {
+    display: flex;
+  }
+}
+
+.nav-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--bone);
+}
+
+.nav-email {
+  font-size: 0.72rem;
+  color: var(--bone-dim);
+}
+
+.nav-signout {
+  background: transparent;
+  border: 1px solid var(--plum-edge);
+  color: var(--bone-dim);
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: border-color 0.12s ease, color 0.12s ease;
+}
+
+.nav-signout:hover {
+  border-color: var(--coral);
+  color: var(--coral);
+}

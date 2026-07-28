@@ -1,0 +1,53 @@
+.board-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.board-sort {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: var(--bone-dim);
+}
+
+.board-sort select {
+  background: var(--ink-raised);
+  border: 1px solid var(--plum-edge);
+  color: var(--bone);
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-size: 0.85rem;
+}
+
+.board-controls-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.board-action-btn {
+  background: transparent;
+  border: 1px solid var(--plum-edge);
+  color: var(--bone);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.12s ease, color 0.12s ease;
+}
+
+.board-action-btn:hover:not(:disabled) {
+  border-color: var(--brass);
+  color: var(--brass);
+}
+
+.board-action-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}

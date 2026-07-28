@@ -1,0 +1,29 @@
+/* ---------------------------------------------------------------
+   Design tokens — "Scoutboard": a scouting-report / ledger
+   aesthetic for coder stats. Warm paper base, antique copper for
+   rank and primary actions, deep teal for interactive elements,
+   brick red reserved for "hard" / destructive.
+------------------------------------------------------------------*/
+:root {
+  --ink: #f6f1e7;       /* page background — warm paper */
+  --ink-raised: #fffdf9; /* raised surfaces — search bar, inputs */
+  --plum: #fbf7ef;       /* card surface (gradient start) */
+  --plum-edge: #ddccac;  /* borders / hairlines */
+  --brass: #a6631d;      /* primary accent — rank, CTAs, labels */
+  --brass-dim: #c9a26a;  /* muted accent — badge borders, disabled */
+  --cyan: #0f6e6a;       /* secondary accent — handles, links, focus */
+  --coral: #a33a2c;      /* danger / hard difficulty */
+  --leaf: #3c7a52;       /* success / easy difficulty */
+  --bone: #241f1a;       /* primary text */
+  --bone-dim: #6e6455;   /* secondary / muted text */
+
+  --shadow-sm: 0 10px 26px -16px rgba(36, 28, 18, 0.28);
+  --shadow-lg: 0 24px 55px -24px rgba(36, 28, 18, 0.32);
+
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --radius-card: 22px;
+  --radius-sm: 10px;
+}

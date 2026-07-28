@@ -1,0 +1,59 @@
+.scanner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--ink-raised);
+  border: 1px solid var(--plum-edge);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  box-shadow: inset 0 0 0 1px rgba(166, 99, 29, 0.08);
+}
+
+.scanner-prompt {
+  font-family: var(--font-mono);
+  color: var(--brass);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.scanner-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--bone);
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  caret-color: var(--cyan);
+}
+
+.scanner-input::placeholder {
+  color: var(--bone-dim);
+}
+
+.scanner-input:focus {
+  outline: none;
+}
+
+.scanner-button {
+  background: var(--brass);
+  color: var(--ink);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.12s ease;
+  white-space: nowrap;
+}
+
+.scanner-button:hover:not(:disabled) {
+  background: #8a5116;
+  transform: translateY(-1px);
+}
+
+.scanner-button:disabled {
+  background: var(--brass-dim);
+  cursor: default;
+}

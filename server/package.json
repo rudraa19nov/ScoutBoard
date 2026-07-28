@@ -1,0 +1,29 @@
+{
+  "name": "scoutboard-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Scoutboard API — Express + MongoDB backend with Google OAuth, per-user boards, and a LeetCode proxy.",
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js",
+    "seed:check": "node src/utils/checkEnv.js"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.4.0",
+    "google-auth-library": "^9.14.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.6.3",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
