@@ -41,6 +41,7 @@ mern-scoutboard/
 
 ## Features
 
+
 - **Google OAuth sign-in** — no passwords to manage. Session is a JWT stored in an httpOnly cookie.
 - **Per-user boards** — every saved profile is tied to your Google account (`owner` field +
   a unique `owner + username` index in MongoDB). One account can never read or modify another
