@@ -1,4 +1,5 @@
 import { Router } from "express";
+import asyncHandler from "../utils/asyncHandler.js";
 import SavedProfile from "../models/SavedProfile.js";
 import { requireAuth } from "../middleware/auth.js";
 import {
@@ -22,15 +23,25 @@ const SORTABLE = {
 };
 
 // GET /api/board?sort=recent|rank|rating|solved
-router.get("/", async (req, res) => {
-  const sortKey = SORTABLE[req.query.sort] ? req.query.sort : "recent";
-  const entries = await SavedProfile.find({ owner: req.user._id }).sort(SORTABLE[sortKey]);
-  return res.json({ entries: entries.map((e) => e.toPublicJSON()) });
-});
+router.get(
+  "/",
+  asyncHandler(async (req, res) => {
+    const sortKey = SORTABLE[req.query.sort]
+      ? req.query.sort
+      : "recent";
 
+    const entries = await SavedProfile.find({
+      owner: req.user._id
+    }).sort(SORTABLE[sortKey]);
+
+    return res.json({
+      entries: entries.map((e) => e.toPublicJSON())
+    });
+  })
+);
 // POST /api/board  { username }
 // Fetches the live profile from LeetCode and pins it to the caller's board.
-router.post("/", async (req, res) => {
+router.post("/", asyncHandler(async (req, res) => {
   const username = (req.body?.username || "").trim();
 
   if (!username || username.length > 39) {
@@ -63,10 +74,10 @@ router.post("/", async (req, res) => {
     console.error("[board] create failed:", err);
     return res.status(500).json({ error: "Unexpected server error." });
   }
-});
+}));
 
 // PATCH /api/board/:id  { tag?, note? }
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", asyncHandler(async (req, res) => {
   const { tag, note } = req.body || {};
   const update = {};
 
@@ -91,40 +102,66 @@ router.patch("/:id", async (req, res) => {
   }
 
   return res.json({ entry: entry.toPublicJSON() });
-});
+}));
 
 // POST /api/board/:id/refresh — re-pull the latest stats from LeetCode
-router.post("/:id/refresh", async (req, res) => {
-  const entry = await SavedProfile.findOne({ _id: req.params.id, owner: req.user._id });
-  if (!entry) {
-    return res.status(404).json({ error: "Board entry not found." });
-  }
 
-  try {
-    const profile = await getLeetCodeProfile(entry.username);
+router.post(
+  "/:id/refresh",
+  asyncHandler(async (req, res) => {
+    const entry = await SavedProfile.findOne({
+      _id: req.params.id,
+      owner: req.user._id
+    });
+
+    if (!entry) {
+      return res.status(404).json({
+        error: "Board entry not found."
+      });
+    }
+
+    let profile;
+
+    try {
+      profile = await getLeetCodeProfile(entry.username);
+    } catch (err) {
+      if (err instanceof LeetCodeNotFoundError) {
+        return res.status(404).json({ error: err.message });
+      }
+
+      if (err instanceof LeetCodeUpstreamError) {
+        return res.status(502).json({
+          error: "Couldn't refresh from LeetCode right now."
+        });
+      }
+
+      // Unexpected errors go to centralized error middleware.
+      throw err;
+    }
+
     entry.snapshot = profile;
     entry.snapshotFetchedAt = new Date();
+
     await entry.save();
-    return res.json({ entry: entry.toPublicJSON() });
-  } catch (err) {
-    if (err instanceof LeetCodeNotFoundError) {
-      return res.status(404).json({ error: err.message });
-    }
-    return res.status(502).json({ error: "Couldn't refresh from LeetCode right now." });
-  }
-});
+
+    return res.json({
+      entry: entry.toPublicJSON()
+    });
+  })
+);
+
 
 // DELETE /api/board/:id
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", asyncHandler(async (req, res) => {
   const result = await SavedProfile.findOneAndDelete({ _id: req.params.id, owner: req.user._id });
   if (!result) {
     return res.status(404).json({ error: "Board entry not found." });
   }
   return res.json({ ok: true });
-});
+}));
 
 // GET /api/board/export/csv — download the caller's board as a CSV file
-router.get("/export/csv", async (req, res) => {
+router.get("/export/csv", asyncHandler(async (req, res) => {
   const entries = await SavedProfile.find({ owner: req.user._id }).sort({ createdAt: -1 });
 
   const header = ["username", "realName", "rank", "contestRating", "solvedTotal", "easy", "medium", "hard", "tag", "note"];
@@ -150,6 +187,6 @@ router.get("/export/csv", async (req, res) => {
   res.setHeader("Content-Type", "text/csv");
   res.setHeader("Content-Disposition", "attachment; filename=scoutboard.csv");
   return res.send(csv);
-});
+}));
 
 export default router;

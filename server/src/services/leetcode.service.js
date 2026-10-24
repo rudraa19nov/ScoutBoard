@@ -47,35 +47,82 @@ const PROFILE_QUERY = `
 export class LeetCodeNotFoundError extends Error {}
 export class LeetCodeUpstreamError extends Error {}
 
-async function fetchRawProfile(username) {
-  const response = await fetch(LEETCODE_GRAPHQL_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      // LeetCode expects a same-site-looking referer, otherwise it can
-      // reject the request even though the data is public.
-      Referer: `https://leetcode.com/${username}/`,
-      "User-Agent": "Mozilla/5.0 (compatible; Scoutboard/1.0)"
-    },
-    body: JSON.stringify({
-      query: PROFILE_QUERY,
-      variables: { username },
-      operationName: "userProfile"
-    })
-  });
 
-  if (!response.ok) {
-    throw new LeetCodeUpstreamError(`LeetCode responded with status ${response.status}`);
+async function fetchRawProfile(username) {
+  let response;
+
+  try {
+    response = await fetch(LEETCODE_GRAPHQL_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Referer: `https://leetcode.com/${username}/`,
+        "User-Agent": "Mozilla/5.0 (compatible; Scoutboard/1.0)"
+      },
+      body: JSON.stringify({
+        query: PROFILE_QUERY,
+        variables: { username },
+        operationName: "userProfile"
+      }),
+      signal: AbortSignal.timeout(10000)
+    });
+  } catch (err) {
+    throw new LeetCodeUpstreamError(
+      `LeetCode request failed: ${err.message}`
+    );
   }
 
-  const json = await response.json();
+  if (!response.ok) {
+    throw new LeetCodeUpstreamError(
+      `LeetCode responded with status ${response.status}`
+    );
+  }
 
-  if (json.errors && json.errors.length > 0) {
-    throw new LeetCodeUpstreamError(json.errors[0].message || "LeetCode GraphQL error");
+  let json;
+
+  try {
+    json = await response.json();
+  } catch {
+    throw new LeetCodeUpstreamError(
+      "LeetCode returned an invalid JSON response."
+    );
+  }
+
+  // A GraphQL response can contain partial data alongside errors.
+  // Preserve a clear "profile not found" result when the response
+  // explicitly confirms that matchedUser is null and has no errors.
+  if (
+    json.data &&
+    Object.hasOwn(json.data, "matchedUser") &&
+    json.data.matchedUser === null &&
+    (!json.errors || json.errors.length === 0)
+  ) {
+    return json.data;
+  }
+
+ if (json.errors?.length) {
+  const message = json.errors[0].message || "LeetCode GraphQL error";
+
+  // LeetCode explicitly says that this username does not exist.
+  if (/that user does not exist|user not found|no such user/i.test(message)) {
+    throw new LeetCodeNotFoundError(
+      `No LeetCode account found for "${username}".`
+    );
+  }
+
+  // Other GraphQL errors remain upstream failures.
+  throw new LeetCodeUpstreamError(message);
+}
+
+  if (!json.data) {
+    throw new LeetCodeUpstreamError(
+      "LeetCode returned no profile data."
+    );
   }
 
   return json.data;
 }
+
 
 function shapeProfile(data) {
   const matchedUser = data?.matchedUser;
