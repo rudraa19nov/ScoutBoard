@@ -155,3 +155,7 @@ Open `http://localhost:5173`, sign in with Google, and start scanning usernames.
 LeetCode's public GraphQL endpoint doesn't allow direct browser requests, so the Express server
 proxies the request — this logic is a direct port of the original Next.js API route, unchanged.
 Rate limiting (`express-rate-limit`) is applied to all `/api` routes to keep usage reasonable.
+
+<img width="1858" height="852" alt="Screenshot 2026-10-24 122411" src="https://github.com/user-attachments/assets/6b4705ca-fa93-4dfb-81f2-add0ea7e6234" />
+<img width="1893" height="860" alt="Screenshot 2026-10-24 122312" src="https://github.com/user-attachments/assets/a613fb6d-1c0c-4a20-b0b8-08a423513a41" />
+<img width="1886" height="861" alt="Screenshot 2026-10-24 122331" src="https://github.com/user-attachments/assets/8c8a476e-4269-4bfd-b2bc-e391b05ec6be" />
